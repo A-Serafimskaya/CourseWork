@@ -167,7 +167,6 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkFailureNotification();
-        creditPage.checkForAbsenceSuccessNotification(); //??? есть сообщ о успехе и неуспехе
         assertEquals("DECLINED", SQLHelper.creditStatusQuery());
     }
 

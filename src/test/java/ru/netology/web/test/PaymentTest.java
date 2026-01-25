@@ -165,7 +165,6 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
         paymentPage.checkFailureNotification();
-        paymentPage.checkForAbsenceSuccessNotification(); //??? есть сообщ об успехе и неуспехе - не записывает в базу данных
         assertEquals("DECLINED", SQLHelper.paymentStatusQuery());
     }
 
