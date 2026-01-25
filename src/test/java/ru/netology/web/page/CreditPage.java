@@ -5,11 +5,12 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class CreditPage {
 
-    private final SelenideElement creditPayButton = $(".button_view_extra.button_size_m.button_theme_alfa-on-white");
+    private final SelenideElement creditPayButton = $(byText("Купить в кредит"));
 
     private final SelenideElement cardNumberField = $(".form-field:nth-child(1) input");
     private final SelenideElement monthFieldField = $(".form-field:nth-child(2) .input-group__input-case:nth-child(1) input");
@@ -57,7 +58,7 @@ public class CreditPage {
     }
 
     public void checkSuccessNotification() {
-        successMessage.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        successMessage.shouldBe(Condition.visible, Duration.ofSeconds(15));
         successMessage.shouldHave(Condition.text("Операция одобрена банком"));
     }
 
@@ -72,37 +73,27 @@ public class CreditPage {
     }
 
     public void checkErrorWarningCardNumberField() {
-        invalidFormatCardField.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        invalidFormatCardField.shouldBe(Condition.visible);
         invalidFormatCardField.shouldHave(Condition.text("Неверный формат"));
     }
 
     public void checkErrorWarningHolderField() {
-        invalidFormatHolderField.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        invalidFormatHolderField.shouldBe(Condition.visible);
         invalidFormatHolderField.shouldHave(Condition.text("Поле обязательно для заполнения"));
     }
 
-    public void checkErrorWarningMonthField() {
-        invalidFormatMonthField.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        invalidFormatMonthField.shouldHave(Condition.text("Неверно указан срок действия карты"));
+    public void checkErrorWarningMonthField(String textError) {
+        invalidFormatMonthField.shouldBe(Condition.visible);
+        invalidFormatMonthField.shouldHave(Condition.text(textError));
     }
 
-    public void checkErrorWarningMonthFieldWrongFormat() {
-        invalidFormatMonthField.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        invalidFormatMonthField.shouldHave(Condition.text("Неверный формат"));
-    }
-
-    public void checkErrorWarningYearFieldWrongPeriod() {
-        invalidFormatYearField.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        invalidFormatYearField.shouldHave(Condition.text("Истёк срок действия карты"));
-    }
-
-    public void checkErrorWarningYearFieldWrongFormat() {
-        invalidFormatYearField.shouldBe(Condition.visible, Duration.ofSeconds(10));
-        invalidFormatYearField.shouldHave(Condition.text("Неверный формат"));
+    public void checkErrorWarningYearFieldWrongFormat(String textError) {
+        invalidFormatYearField.shouldBe(Condition.visible);
+        invalidFormatYearField.shouldHave(Condition.text(textError));
     }
 
     public void checkErrorWarningCvcFieldWrongFormat() {
-        invalidFormatCvcField.shouldBe(Condition.visible, Duration.ofSeconds(10));
+        invalidFormatCvcField.shouldBe(Condition.visible);
         invalidFormatCvcField.shouldHave(Condition.text("Неверный формат"));
     }
 }

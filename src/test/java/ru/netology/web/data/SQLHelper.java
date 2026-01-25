@@ -26,4 +26,12 @@ public class SQLHelper {
             return runner.query(conn, statusQuery, new ScalarHandler<>());
         }
     }
+
+    @SneakyThrows
+    public static Object creditStatusQuery() {
+        var statusQuery = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
+        try (var conn = getConnection()) {
+            return runner.query(conn, statusQuery, new ScalarHandler<>());
+        }
+    }
 }

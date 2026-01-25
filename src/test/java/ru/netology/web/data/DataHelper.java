@@ -6,12 +6,14 @@ import lombok.Value;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Random;
 
 
 public class DataHelper {
 
-    private static Faker faker;
+    private static final Faker faker = new Faker();
+    private static final Faker fakerRu = new Faker(new Locale("ru"));
 
 
     public static CardNumber getApprovedCardNumber() {
@@ -23,15 +25,17 @@ public class DataHelper {
     }
 
     public static CardNumber getInvalidCardNumber() {
-        return new CardNumber("1234123412341234");
+       String cardNumber = faker.numerify("################"); // 20 цифр
+        return new CardNumber(cardNumber);
     }
 
     public static CardNumber getInvalidCardNumberShort() {
-        return new CardNumber("111122223333444");
+        String cardNumber = faker.numerify("############"); // 12 цифр
+        return new CardNumber(cardNumber);
     }
 
     public static CardNumber getInvalidCardNumberLong() {
-        return new CardNumber("11112222333344445555");
+        return new CardNumber("####################"); // 20 цифр
     }
 
     public static ValidPeriod getValidPeriod() { // валидный период, будущие значения, год следующий за текущим
@@ -87,7 +91,8 @@ public class DataHelper {
     }
 
     public static Holder getValidHolderFullLatin() {
-        return new Holder("Ivan Ivanov");
+        String fullName = faker.name().fullName(); // Генерирует полное имя (имя + фамилия)
+        return new Holder(fullName);
     }
 
     public static Holder getValidHolderDoubleLatin() {
@@ -99,7 +104,10 @@ public class DataHelper {
     }
 
     public static Holder getInvalidHolderCyrillic() {
-        return new Holder("Иван Иванов");
+        String firstName = fakerRu.name().firstName();   // Например: "Мария"
+        String lastName = fakerRu.name().lastName();     // Например: "Сидорова"
+        String fullName = firstName + " " + lastName;   // "Мария Сидорова"
+        return new Holder(fullName);
     }
 
     public static Holder getInvalidHolderSymbols() {
@@ -107,16 +115,13 @@ public class DataHelper {
     }
 
     public static Cvc getValidCvc() {
-        Random random = new Random();
-        int number = random.nextInt(1000); // 0–999
-        String validCvc = String.format("%03d", number); // "%03d" → 3 знака, заполнение нулями
+        String validCvc = faker.numerify("###");
         return new Cvc(validCvc);
     }
 
     public static Cvc getInvalidCvcShort() {
-        Random random = new Random();
-        int number = random.nextInt(100); // 0–99
-        return new Cvc(String.valueOf(number));
+        String invalidCvc = faker.numerify("##");
+        return new Cvc(invalidCvc);
     }
 
     public static Cvc getInvalidCvcText1() {

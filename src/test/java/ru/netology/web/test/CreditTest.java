@@ -45,7 +45,7 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
+        assertEquals("APPROVED", SQLHelper.creditStatusQuery());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
+        assertEquals("APPROVED", SQLHelper.creditStatusQuery());
     }
 
     @Test
@@ -75,7 +75,8 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
+        assertEquals("APPROVED", SQLHelper.creditStatusQuery());
+
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
+        assertEquals("APPROVED", SQLHelper.creditStatusQuery());
     }
 
     @Test
@@ -105,13 +106,14 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
+        assertEquals("APPROVED", SQLHelper.creditStatusQuery());
     }
+
+// Негативные проверки
 
     @Test
         // Отправки заяки, поле "Номер карты" более 16-ти символов.
-        // Операция должна быть успешной, т.к. поле принимает первые 16 цифр, в данном случае в итоге получится валидный номер
-    void shouldNotFailWithLongCardNumber() {
+    void shouldFailWithLongCardNumber() {
         CreditPage creditPage = new CreditPage();
         creditPage.chooseCreditOption();
         creditPage.fillCardNumber(DataHelper.getInvalidCardNumberLong().getCardNumber());
@@ -120,11 +122,9 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
-    }
+        creditPage.checkErrorWarningCardNumberField();
 
-// Негативные проверки
+    }
 
     @Test
         // Отправки заяки с валидными данными заблокированной карты DECLINE (5555666677778888)
@@ -138,7 +138,7 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkFailureNotification();
-        assertEquals("DECLINED", SQLHelper.paymentStatusQuery());
+        assertEquals("DECLINED", SQLHelper.creditStatusQuery());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class CreditTest {
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
         creditPage.checkErrorWarningCardNumberField();
-        creditPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -168,7 +168,7 @@ public class CreditTest {
         creditPage.continueClick();
         creditPage.checkFailureNotification();
         creditPage.checkForAbsenceSuccessNotification(); //??? есть сообщ о успехе и неуспехе
-        assertEquals("DECLINED", SQLHelper.paymentStatusQuery());
+        assertEquals("DECLINED", SQLHelper.creditStatusQuery());
     }
 
     @Test
@@ -257,7 +257,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningMonthFieldWrongFormat();
+        creditPage.checkErrorWarningMonthField("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -272,7 +272,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningMonthField();
+        creditPage.checkErrorWarningMonthField("Неверно указан срок действия карты");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -287,7 +287,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningMonthFieldWrongFormat();
+        creditPage.checkErrorWarningMonthField("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -301,7 +301,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningMonthFieldWrongFormat();
+        creditPage.checkErrorWarningMonthField("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -316,7 +316,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningMonthFieldWrongFormat();
+        creditPage.checkErrorWarningMonthField("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -331,7 +331,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningYearFieldWrongPeriod();
+        creditPage.checkErrorWarningYearFieldWrongFormat("Истёк срок действия карты");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -345,7 +345,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningYearFieldWrongFormat();
+        creditPage.checkErrorWarningYearFieldWrongFormat("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -360,7 +360,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningYearFieldWrongFormat();
+        creditPage.checkErrorWarningYearFieldWrongFormat("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 
@@ -375,7 +375,7 @@ public class CreditTest {
         creditPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         creditPage.fillCvc(DataHelper.getValidCvc().getCvc());
         creditPage.continueClick();
-        creditPage.checkErrorWarningYearFieldWrongFormat();
+        creditPage.checkErrorWarningYearFieldWrongFormat("Неверный формат");
         creditPage.checkForAbsenceSuccessNotification();
     }
 

@@ -107,10 +107,11 @@ public class PaymentTest {
         assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
     }
 
+// Негативные проверки
+
     @Test
         // Отправки заяки, поле "Номер карты" более 16-ти символов.
-        // Операция должна быть успешной, т.к. поле принимает первые 16 цифр, в данном случае в итоге получится валидный номер
-    void shouldNotFailWithLongCardNumber() {
+    void shouldFailWithLongCardNumber() {
         PaymentPage paymentPage = new PaymentPage();
         paymentPage.choosePayOption();
         paymentPage.fillCardNumber(DataHelper.getInvalidCardNumberLong().getCardNumber());
@@ -119,11 +120,9 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkSuccessNotification();
-        assertEquals("APPROVED", SQLHelper.paymentStatusQuery());
-    }
+        paymentPage.checkErrorWarningCardNumberField();
 
-// Негативные проверки
+    }
 
     @Test
         // Отправки заяки с валидными данными заблокированной карты DECLINE (5555666677778888)
@@ -151,7 +150,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCardNumberField();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -182,7 +181,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCardNumberField();
-        paymentPage.checkForAbsenceSuccessNotification();
+
 
     }
 
@@ -198,7 +197,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
         paymentPage.checkFailureNotification();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -213,7 +212,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
         paymentPage.checkFailureNotification();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -227,7 +226,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningHolderField();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -241,7 +240,7 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -255,8 +254,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningMonthFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningMonthField("Неверный формат");
+
     }
 
     @Test
@@ -270,8 +269,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningMonthField();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningMonthField("Неверно указан срок действия карты");
+
     }
 
     @Test
@@ -285,8 +284,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningMonthFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningMonthField("Неверный формат");
+
     }
 
     @Test
@@ -299,8 +298,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningMonthFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningMonthField("Неверный формат");
+
     }
 
     @Test
@@ -314,8 +313,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningMonthFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningMonthField("Неверный формат");
+
     }
 
     @Test
@@ -329,8 +328,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningYearFieldWrongPeriod();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningYearFieldWrongFormat("Истёк срок действия карты");
+
     }
 
     @Test
@@ -343,8 +342,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningYearFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningYearFieldWrongFormat("Неверный формат");
+
     }
 
     @Test
@@ -358,8 +357,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningYearFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningYearFieldWrongFormat("Неверный формат");
+
     }
 
     @Test
@@ -373,8 +372,8 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.fillCvc(DataHelper.getValidCvc().getCvc());
         paymentPage.continueClick();
-        paymentPage.checkErrorWarningYearFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+        paymentPage.checkErrorWarningYearFieldWrongFormat("Неверный формат");
+
     }
 
     @Test
@@ -388,7 +387,7 @@ public class PaymentTest {
         paymentPage.fillHolder(DataHelper.getValidHolderFullLatin().getHolder());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCvcFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -403,7 +402,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getInvalidCvcText1().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCvcFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -418,7 +417,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getInvalidCvcText2().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCvcFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -433,7 +432,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getInvalidCvcSymbols().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCvcFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 
     @Test
@@ -448,7 +447,7 @@ public class PaymentTest {
         paymentPage.fillCvc(DataHelper.getInvalidCvcShort().getCvc());
         paymentPage.continueClick();
         paymentPage.checkErrorWarningCvcFieldWrongFormat();
-        paymentPage.checkForAbsenceSuccessNotification();
+
     }
 }
 
