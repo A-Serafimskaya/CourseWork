@@ -1,4 +1,4 @@
-# CourseWork
+# CourseWork [![Java CI with Gradle](https://github.com/A-Serafimskaya/CourseWork/actions/workflows/gradle.yml/badge.svg)](https://github.com/A-Serafimskaya/CourseWork/actions/workflows/gradle.yml)
 Курсовой проект по модулю «Автоматизация тестирования» для профессии «Инженер по тестированию»
 
 # **Автоматизация тестирования комплексного сервиса, взаимодействующего с СУБД и API банка**
