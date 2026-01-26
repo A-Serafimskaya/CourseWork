@@ -11,10 +11,14 @@
 Всего автоматизировано 56 тест кейсов (по 28 тестов для каждого способа оплаты).
  
 Из них по результатам тестирования оказалось по 23 успешных и по 5 неуспешных.
-![img_20.png](img_20.png)
-![img_23.png](img_23.png)
-![img_24.png](img_24.png)
-![img_25.png](img_25.png)
+<img width="1685" height="821" alt="image" src="https://github.com/user-attachments/assets/d49ef6d3-0810-41ef-95a5-ba89a2dde412" />
+<img width="898" height="825" alt="image" src="https://github.com/user-attachments/assets/fb204a20-7d21-420b-9e09-bdf746ae0a21" />
+<img width="1644" height="878" alt="image" src="https://github.com/user-attachments/assets/9590237c-f809-4f4e-9c33-5be605a4dfc0" />
+<img width="1670" height="336" alt="image" src="https://github.com/user-attachments/assets/60ed89ef-7b7b-4b94-b70c-d8fc7a5149f3" />
+
+
+
+
 
 ## Общие рекомендации
 
